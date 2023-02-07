@@ -3,17 +3,20 @@ const fs = require('fs');
 const app = express();
 const port = 3000;
 
+// JSON data files
 const eventsFile = './data/events.json';
 const usersFile = './data/users.json';
+
+// Middlewares
+app.use(express.json());
+app.use('/api/v1', plannerRouter);
 
 /* 
 
 GET ROUTES
 
 */
-app.get('/api/v1', (req, res) => {
-  // Base Route
-});
+const plannerRouter = express.Router();
 
 app.get('/events', (req, res) => {
   // Get All Events
