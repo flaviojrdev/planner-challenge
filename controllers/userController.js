@@ -1,8 +1,8 @@
 exports.createUser = (req, res) => {
-  // Create New User
+  // TODO Create New User
 }; 
 
 exports.signInUser = (req, res) => {
-  // Sign In User
+  // TODO Sign In User
 };
 

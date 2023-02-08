@@ -6,25 +6,25 @@ const events = JSON.parse(
 );
 
 exports.getAllEvents = (req, res) => {
-  // Get All Events
+  // TODO Get All Events
 };
 
 exports.getEvent = (req, res) => {
-  // Get Event by ID
+  // TODO Get Event by ID
 };
 
 exports.getEventsByDay = (req, res) => {
-  // Get Event by Day of the Week
+  // TODO Get Event by Day of the Week
 };
 
 exports.createEvent = (req, res) => {
-  // Create New Event
+  // TODO Create New Event
 };
 
 exports.deleteEvent = (req, res) => {
-  // Delete Event by ID
+  // TODO Delete Event by ID
 };
 
 exports.deleteEventsByDay = (req, res) => {
-  // Delete Event by Day of the Week
+  // TODO Delete Event by Day of the Week
 };
