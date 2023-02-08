@@ -7,10 +7,6 @@ const usersFile = './data/users.json';
 
 // Middlewares
 app.use(express.json());
-app.use('/api/v1', plannerRouter);
-
-
-const plannerRouter = express.Router();
 
 /* 
 
