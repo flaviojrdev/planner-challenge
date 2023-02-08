@@ -5,26 +5,26 @@ const events = JSON.parse(
   fs.readFileSync(`${__dirname}/../data/events.json`, 'utf-8')
 );
 
-const getAllEvents = (req, res) => {
+exports.getAllEvents = (req, res) => {
   // Get All Events
 };
 
-const getEvent = (req, res) => {
+exports.getEvent = (req, res) => {
   // Get Event by ID
 };
 
-const getEventsByDay = (req, res) => {
+exports.getEventsByDay = (req, res) => {
   // Get Event by Day of the Week
 };
 
-const createEvent = (req, res) => {
+exports.createEvent = (req, res) => {
   // Create New Event
 };
 
-const deleteEvent = (req, res) => {
+exports.deleteEvent = (req, res) => {
   // Delete Event by ID
 };
 
-const deleteEventsByDay = (req, res) => {
+exports.deleteEventsByDay = (req, res) => {
   // Delete Event by Day of the Week
 };
