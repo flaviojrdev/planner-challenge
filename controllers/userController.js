@@ -1,9 +1,9 @@
 // 1) ROUTE HANDLERS
-exports.createUser = (req, res) => {
+exports.signUp = (req, res) => {
   // TODO Create New User
 }; 
 
-exports.signInUser = (req, res) => {
+exports.signIn = (req, res) => {
   // TODO Sign In User
 };
 

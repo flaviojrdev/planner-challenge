@@ -1,10 +1,8 @@
 const fs = require('fs');
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 
 // 1) JSON DATA
-const events = JSON.parse(
-  fs.readFile(`${__dirname}/../data/events.json`, 'utf-8')
-);
+const events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
 
 // 2) VALIDATIONS
 exports.checkBody = (req, res, next) => {
