@@ -7,7 +7,8 @@ const events = JSON.parse(
 
 // 2) VALIDATIONS
 exports.checkID = (req, res, next, val) => {
-  if (req.params.id * 1 > events.length) {
+  const index = events.findIndex(event => event.id === req.params.id * 1);
+  if (isNaN(req.params.id) || index === -1) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID'
@@ -27,7 +28,7 @@ exports.checkBody = (req, res, next) => {
   next();
 };
 
-// 3) ENDPOINTS
+// 3) ROUTE HANDLERS
 exports.getAllEvents = (req, res) => {
   // TODO Get All Events
 };
