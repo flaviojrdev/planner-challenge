@@ -90,5 +90,18 @@ exports.deleteEvent = (req, res) => {
 };
 
 exports.deleteEventsByDay = (req, res) => {
-  // TODO Delete Event by Day of the Week
+  const day = req.params.day;
+  const eventsByDay = events.filter(event => event.day === day);
+  const index = events.indexOf(eventsByDay);
+  events.splice(index, 1);
+  fs.writeFile(
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
+    err => {
+      res.status(204).json({
+        status: 'success',
+        data: null
+      });
+    }
+  );
 };
