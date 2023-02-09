@@ -3,7 +3,7 @@ const uuid = require('uuid/v4');
 
 // 1) JSON DATA
 const events = JSON.parse(
-  fs.readFileSync(`${__dirname}/../data/events.json`, 'utf-8')
+  fs.readFile(`${__dirname}/../data/events.json`, 'utf-8')
 );
 
 // 2) VALIDATIONS
