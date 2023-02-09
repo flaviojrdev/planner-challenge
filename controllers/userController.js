@@ -1,3 +1,4 @@
+// 1) ROUTE HANDLERS
 exports.createUser = (req, res) => {
   // TODO Create New User
 }; 
