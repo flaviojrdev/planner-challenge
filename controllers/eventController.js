@@ -1,4 +1,5 @@
 const fs = require('fs');
+const uuid = require('uuid/v4');
 
 // 1) JSON DATA
 const events = JSON.parse(
@@ -6,17 +7,6 @@ const events = JSON.parse(
 );
 
 // 2) VALIDATIONS
-exports.checkID = (req, res, next, val) => {
-  const index = events.findIndex(event => event.id === req.params.id * 1);
-  if (isNaN(req.params.id) || index === -1) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid ID'
-    });
-  }
-  next();
-};
-
 exports.checkBody = (req, res, next) => {
   const { description, dateTime, createdAt } = req.body;
   if (!description || !dateTime || !createdAt) {
@@ -40,7 +30,8 @@ exports.getAllEvents = (req, res) => {
 };
 
 exports.getEvent = (req, res) => {
-  const event = events.find(event => event.id === req.params.id * 1);
+  const id = req.params.id;
+  const event = events.find(el => el.id === id);
   res.status(200).json({
     status: 'success',
     data: {
@@ -62,7 +53,23 @@ exports.getEventsByDay = (req, res) => {
 };
 
 exports.createEvent = (req, res) => {
-  // TODO Create New Event
+  const newEvent = {
+    id: uuid(),
+    ...req.body
+  };
+  events.push(newEvent);
+  fs.writeFile(
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
+    err => {
+      res.status(201).json({
+        status: 'success',
+        data: {
+          event: newEvent
+        }
+      });
+    }
+  );
 };
 
 exports.deleteEvent = (req, res) => {
