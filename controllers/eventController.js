@@ -73,7 +73,20 @@ exports.createEvent = (req, res) => {
 };
 
 exports.deleteEvent = (req, res) => {
-  // TODO Delete Event by ID
+  const id = req.params.id;
+  const event = events.find(el => el.id === id);
+  const index = events.indexOf(event);
+  events.splice(index, 1);
+  fs.writeFile(
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
+    err => {
+      res.status(204).json({
+        status: 'success',
+        data: null
+      });
+    }
+  );
 };
 
 exports.deleteEventsByDay = (req, res) => {
