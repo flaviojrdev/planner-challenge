@@ -1,10 +1,22 @@
 const fs = require('fs');
 
-// JSON data
+// 1) JSON DATA
 const events = JSON.parse(
   fs.readFileSync(`${__dirname}/../data/events.json`, 'utf-8')
 );
 
+// 2) VALIDATIONS
+exports.checkID = (req, res, next, val) => {
+  if (req.params.id * 1 > events.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID'
+    });
+  }
+  next();
+};
+
+// 3) ENDPOINTS
 exports.getAllEvents = (req, res) => {
   // TODO Get All Events
 };
