@@ -50,7 +50,15 @@ exports.getEvent = (req, res) => {
 };
 
 exports.getEventsByDay = (req, res) => {
-  // TODO Get Event by Day of the Week
+  const day = req.params.day;
+  const eventsByDay = events.filter(event => event.day === day);
+  res.status(200).json({
+    status: 'success',
+    results: eventsByDay.length,
+    data: {
+      eventsByDay
+    }
+  });
 };
 
 exports.createEvent = (req, res) => {
