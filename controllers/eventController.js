@@ -40,7 +40,13 @@ exports.getAllEvents = (req, res) => {
 };
 
 exports.getEvent = (req, res) => {
-  // TODO Get Event by ID
+  const event = events.find(event => event.id === req.params.id * 1);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      event
+    }
+  });
 };
 
 exports.getEventsByDay = (req, res) => {
