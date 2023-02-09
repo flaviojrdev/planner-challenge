@@ -30,7 +30,13 @@ exports.checkBody = (req, res, next) => {
 
 // 3) ROUTE HANDLERS
 exports.getAllEvents = (req, res) => {
-  // TODO Get All Events
+  res.status(200).json({
+    status: 'success',
+    results: events.length,
+    data: {
+      events
+    }
+  });
 };
 
 exports.getEvent = (req, res) => {
