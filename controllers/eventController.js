@@ -16,6 +16,17 @@ exports.checkID = (req, res, next, val) => {
   next();
 };
 
+exports.checkBody = (req, res, next) => {
+  const { description, dateTime, createdAt } = req.body;
+  if (!description || !dateTime || !createdAt) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Description, date and time, and created at are required'
+    });
+  }
+  next();
+};
+
 // 3) ENDPOINTS
 exports.getAllEvents = (req, res) => {
   // TODO Get All Events
