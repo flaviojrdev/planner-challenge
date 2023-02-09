@@ -1,5 +1,5 @@
 const fs = require('fs');
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 // 1) JSON DATA
 const events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
@@ -40,8 +40,8 @@ exports.getAllEvents = (req, res) => {
 
 exports.getEvent = (req, res) => {
   try {
-    const id = req.params.id;
-    const event = events.find((el) => el.id === id);
+    const id = req.params._id;
+    const event = events.find((el) => el._id === id);
     if (!event) {
       return res.status(404).json({
         status: 'fail',
@@ -81,7 +81,7 @@ exports.getEventsByDay = (req, res) => {
 };
 
 exports.createEvent = (req, res) => {
-  const newEvent = { id: uuid(), ...req.body };
+  const newEvent = { _id: uuid(), ...req.body };
   events.push(newEvent);
   fs.writeFile(
     `${__dirname}/../data/events.json`,
@@ -96,8 +96,8 @@ exports.createEvent = (req, res) => {
 };
 
 exports.deleteEvent = (req, res) => {
-  const id = req.params.id;
-  const eventIndex = events.findIndex((el) => el.id === id);
+  const id = req.params._id;
+  const eventIndex = events.findIndex((el) => el._id === id);
   events.splice(eventIndex, 1);
   fs.writeFile(
     `${__dirname}/../data/events.json`,
