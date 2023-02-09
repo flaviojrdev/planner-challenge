@@ -5,14 +5,14 @@ const port = 3000;
 const eventRouter = require('./routes/eventRoutes');
 const userRouter = require('./routes/userRoutes');
 
-// Middleware
+// 1) MIDDLEWARES
 app.use(express.json());
 
-// Routes
+// 2) ROUTES
 app.use('/api/v1/events', eventRouter);
 app.use('/api/v1/users', userRouter);
 
-// Start server
+// 3) START SERVER
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
