@@ -11,13 +11,13 @@ router
 
 validDays.forEach((day) => {
   router
-    .route(`/:${day}`)
+    .route(`/day/:${day}`)
     .get(eventController.getEventsByDay)
     .delete(eventController.deleteEventsByDay);
 });
 
 router
-  .route('/:_id')
+  .route('/id/:_id')
   .get(eventController.getEvent)
   .delete(eventController.deleteEvent);
 
