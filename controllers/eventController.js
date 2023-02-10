@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
+const validDays = require('../data/validDays.json').days;
 
 // 1) JSON DATA
 const events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
@@ -63,22 +64,36 @@ exports.getEvent = (req, res) => {
 };
 
 exports.getEventsByDay = (req, res) => {
-  const day = req.params.day;
-  const eventsByDay = events.filter((event) => event.day === day);
-  if (!eventsByDay) {
-    return res.status(404).json({
+  try {
+    const day = req.params[Object.keys(req.params)[0]];
+    if (!validDays.includes(day)) {
+      return res.status(404).json({
+        status: 'fail',
+        message: `Invalid day: ${day}`,
+      });
+    }
+    const eventsByDay = events.filter((event) => {
+      const eventDay = new Date(event.dateTime).getDay();
+      return validDays[eventDay] === day;
+    });
+    if (!eventsByDay || eventsByDay.length === 0) {
+      throw new Error(`No events found for ${day}`);
+    }
+    res.status(200).json({
+      status: 'success',
+      results: eventsByDay.length,
+      data: {
+        eventsByDay,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
       status: 'fail',
-      message: `No events found for day: ${day}`,
+      message: error.message,
     });
   }
-  res.status(200).json({
-    status: 'success',
-    results: eventsByDay.length,
-    data: {
-      eventsByDay,
-    },
-  });
 };
+
 
 exports.createEvent = (req, res) => {
   const newEvent = { _id: uuid(), ...req.body };
