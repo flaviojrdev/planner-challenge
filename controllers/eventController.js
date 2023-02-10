@@ -11,7 +11,7 @@ exports.checkBody = (req, res, next) => {
   if (!description || !dateTime || !createdAt) {
     return res.status(400).json({
       status: 'fail',
-      message: 'Description, date and time, and created at are required',
+      message: 'description, dateTime, and createdAt are required. (Check upper and lower case).',
     });
   }
   next();

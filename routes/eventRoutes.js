@@ -7,7 +7,7 @@ const router = express.Router();
 router
   .route('/')
   .get(eventController.getAllEvents)
-  .post(eventController.createEvent);
+  .post(eventController.checkBody, eventController.createEvent);
 
 validDays.forEach((day) => {
   router
