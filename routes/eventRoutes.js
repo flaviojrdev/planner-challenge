@@ -4,6 +4,7 @@ const validDays = require('../data/validDays.json').days;
 
 const router = express.Router();
 
+// 1) ENDPOINTS
 router
   .route('/')
   .get(eventController.getAllEvents)

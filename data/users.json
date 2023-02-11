@@ -1,12 +1,1 @@
-[
-  {
-    "firstName": "John",
-    "lastName": "Doe",
-    "birthday": "1980-01-01",
-    "city": "New York",
-    "country": "USA",
-    "email": "string",
-    "password": "string",
-    "confirmPassword": "string"
-  }
-]
+[{"firstName":"John","lastName":"Doe","birthday":"1980-01-01","city":"New York","country":"USA","email":"string","password":"string","confirmPassword":"string"},{"firstName":"John","lastName":"Doe","birthday":"1980-01-01","city":"New York","country":"USA","email":"string","password":"string","confirmPassword":"string"}]

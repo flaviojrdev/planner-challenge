@@ -3,12 +3,13 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+// 1) ENDPOINTS
 router
-  .route('/users/signUp')
+  .route('/signUp')
   .post(userController.signUp);
 
 router
-  .route('/users/signIn')
-  .post(userController.signIn);
+  .route('/signIn')
+  .get(userController.signIn);
 
 module.exports = router;
