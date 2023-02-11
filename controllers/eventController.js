@@ -11,10 +11,20 @@ exports.checkBody = (req, res, next) => {
   if (!description || !dateTime || !createdAt) {
     return res.status(400).json({
       status: 'fail',
-      message: 'description, dateTime, and createdAt are required. (Check upper and lower case).',
+      message:
+        'description, dateTime, and createdAt are required. (Check upper and lower case).',
     });
   }
   next();
+};
+
+exports.checkDay = (req, res, next, day) => {
+  if (validDays.includes(day)) {
+    req.day = day;
+    next();
+  } else {
+    return res.status(400).json({ error: 'Invalid day' });
+  }
 };
 
 // 3) ROUTE HANDLERS
@@ -93,7 +103,6 @@ exports.getEventsByDay = (req, res) => {
     });
   }
 };
-
 
 exports.createEvent = (req, res) => {
   const newEvent = { _id: uuid(), ...req.body };

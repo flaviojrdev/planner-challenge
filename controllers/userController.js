@@ -6,7 +6,7 @@ let users = JSON.parse(fs.readFileSync(`${__dirname}/../data/users.json`));
 // 2) VALIDATIONS
 exports.checkBody = (req, res, next) => {
   const missingParams = [];
-  const requiredParams = ['firstName', 'lastName', 'birthday', 'city', 'country', 'email', 'password', 'confirmPassword'];
+  const requiredParams = ['description', 'dateTime', 'createdAt'];
   for (const param of requiredParams) {
     if (!req.body[param]) {
       missingParams.push(param);
@@ -15,7 +15,9 @@ exports.checkBody = (req, res, next) => {
   if (missingParams.length) {
     return res.status(400).json({
       status: 'fail',
-      message: `The following parameters are required: ${missingParams.join(', ')}. (Check upper and lower case).`,
+      message: `The following parameters are required: ${missingParams.join(
+        ', '
+      )}. (Check upper and lower case).`,
     });
   }
   next();
@@ -23,7 +25,7 @@ exports.checkBody = (req, res, next) => {
 
 // 3) ROUTE HANDLERS
 exports.signUp = (req, res) => {
-  const newUser = { ...req.body};
+  const newUser = { ...req.body };
   users.push(newUser);
   fs.writeFile(
     `${__dirname}/../data/users.json`,
@@ -50,7 +52,7 @@ exports.signIn = (req, res) => {
       status: 'success',
       data: {
         email: user.email,
-        password: user.password
+        password: user.password,
       },
     });
   } else {
