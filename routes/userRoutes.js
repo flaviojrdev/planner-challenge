@@ -10,6 +10,6 @@ router
 
 router
   .route('/signIn')
-  .get(userController.signIn);
+  .post(userController.signIn);
 
 module.exports = router;

@@ -20,5 +20,25 @@ exports.signUp = (req, res) => {
 };
 
 exports.signIn = (req, res) => {
-  // TODO Sign In User
+  const user = users.find((el) => el.email === req.body.email);
+  if (!user) {
+    return res.status(404).json({
+      status: 'error',
+      message: 'User not found',
+    });
+  }
+  if (user.password === req.body.password) {
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        email: user.email,
+        password: user.password
+      },
+    });
+  } else {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Incorrect password',
+    });
+  }
 };
