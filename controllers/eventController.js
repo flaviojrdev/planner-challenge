@@ -3,7 +3,7 @@ const { v4: uuid } = require('uuid');
 const validDays = require('../data/validDays.json').days;
 
 // 1) JSON DATA
-const events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
+let events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
 
 // 2) VALIDATIONS
 exports.checkBody = (req, res, next) => {
@@ -111,8 +111,8 @@ exports.createEvent = (req, res) => {
 };
 
 exports.deleteEvent = (req, res) => {
-  const id = req.params._id;
-  const eventIndex = events.findIndex((el) => el._id === id);
+  const _id = req.params._id;
+  const eventIndex = events.findIndex((el) => el._id === _id);
   events.splice(eventIndex, 1);
   fs.writeFile(
     `${__dirname}/../data/events.json`,
