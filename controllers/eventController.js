@@ -49,9 +49,8 @@ exports.getAllEvents = (req, res) => {
   }
 };
 
-exports.getEvent = (req, res) => {
+exports.getEvent = (req, res, id) => {
   try {
-    const id = req.params._id;
     const event = events.find((el) => el._id === id);
     if (!event) {
       return res.status(404).json({
@@ -73,21 +72,20 @@ exports.getEvent = (req, res) => {
   }
 };
 
-exports.getEventsByDay = (req, res) => {
+exports.getEventsByDay = (req, res, dayOfTheWeek) => {
   try {
-    const day = req.params[Object.keys(req.params)[0]];
-    if (!validDays.includes(day)) {
+    if (!validDays.includes(dayOfTheWeek)) {
       return res.status(404).json({
         status: 'fail',
-        message: `Invalid day: ${day}`,
+        message: `Invalid day: ${dayOfTheWeek}`,
       });
     }
     const eventsByDay = events.filter((event) => {
       const eventDay = new Date(event.dateTime).getDay();
-      return validDays[eventDay] === day;
+      return validDays[eventDay] === dayOfTheWeek;
     });
     if (!eventsByDay || eventsByDay.length === 0) {
-      throw new Error(`No events found for ${day}`);
+      throw new Error(`No events found for ${dayOfTheWeek}`);
     }
     res.status(200).json({
       status: 'success',
@@ -119,45 +117,10 @@ exports.createEvent = (req, res) => {
   );
 };
 
-exports.deleteEvent = (req, res) => {
-  const _id = req.params._id;
-  const eventIndex = events.findIndex((el) => el._id === _id);
-  events.splice(eventIndex, 1);
-  fs.writeFile(
-    `${__dirname}/../data/events.json`,
-    JSON.stringify(events),
-    (err) => {
-      if (err) {
-        return res.status(500).json({
-          status: 'error',
-          message: 'Error deleting event',
-        });
-      }
-      return res.status(204).json({
-        status: 'success',
-        data: null,
-      });
-    }
-  );
+exports.deleteEvent = (req, res, id) => {
+  // FIX ME
 };
 
-exports.deleteEventsByDay = (req, res) => {
-  const day = req.params.day;
-  events = events.filter((event) => event.day !== day);
-  fs.writeFile(
-    `${__dirname}/../data/events.json`,
-    JSON.stringify(events),
-    (err) => {
-      if (err) {
-        return res.status(500).json({
-          status: 'error',
-          message: 'Could not delete events by day',
-        });
-      }
-      res.status(204).json({
-        status: 'success',
-        data: null,
-      });
-    }
-  );
+exports.deleteEventsByDay = (req, res, dayOfTheWeek) => {
+  // FIX ME
 };
