@@ -98,18 +98,41 @@ const deleteEventById = (req, res, id) => {
       .json({ status: 'fail', message: `Event not found with id: ${id}` });
   events.splice(eventIndex, 1);
   fs.writeFile(
-    `${__dirname}/../data/events.json`,
-    JSON.stringify(events),
+    `${__dirname}/../data/events.json,
+  JSON.stringify(events)`,
     (err) => {
       if (err)
         return res
           .status(500)
           .json({ status: 'fail', message: 'Error writing events data' });
-      res.status(204).json({ status: 'success', data: null });
+      res.status(200).json({ status: 'success', message: 'Event deleted' });
     }
   );
 };
 
 const deleteEventByDay = (req, res, dayOfTheWeek) => {
-  // FIX ME
+  const eventsOnDay = events.filter(
+    (event) => validDays[new Date(event.dateTime).getDay()] === dayOfTheWeek
+  );
+  if (eventsOnDay.length === 0) {
+    return res
+      .status(404)
+      .json({ status: 'fail', message: `No events found on ${dayOfTheWeek}` });
+  }
+  events = events.filter(
+    (event) => validDays[new Date(event.dateTime).getDay()] !== dayOfTheWeek
+  );
+  fs.writeFile(
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
+    (err) => {
+      if (err) {
+        console.error(`Error writing events data: ${err}`);
+        return res
+          .status(500)
+          .json({ status: 'fail', message: 'Error writing events data' });
+      }
+      res.status(200).json({ status: 'success', message: 'Event deleted' });
+    }
+  );
 };
