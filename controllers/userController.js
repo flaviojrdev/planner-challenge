@@ -6,7 +6,16 @@ let users = JSON.parse(fs.readFileSync(`${__dirname}/../data/users.json`));
 // 2) VALIDATIONS
 exports.checkBody = (req, res, next) => {
   const missingParams = [];
-  const requiredParams = ['description', 'dateTime', 'createdAt'];
+  const requiredParams = [
+    'firstName',
+    'lastName',
+    'birthday',
+    'city',
+    'country',
+    'email',
+    'password',
+    'confirmPassword',
+  ];
   for (const param of requiredParams) {
     if (!req.body[param]) {
       missingParams.push(param);
