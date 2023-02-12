@@ -3,21 +3,23 @@ const { v4: uuid } = require('uuid');
 const validDays = require('../data/validDays.json').days;
 
 // 1) DATA (JSON)
-let events = JSON.parse(fs.readFileSync(`${__dirname}/../data/events.json`));
+let events = JSON.parse(
+  fs.readFileSync(`${__dirname}/../data/events.json`, 'utf8')
+);
 
 // 2) MIDDLEWARE
 exports.getByParam = (req, res) => {
   const { param } = req.params;
   validDays.includes(param)
-    ? getEventsByDay(req, res, param)
-    : getEvent(req, res, param);
+    ? getEventByDay(req, res, param)
+    : getEventById(req, res, param);
 };
 
 exports.deleteByParam = (req, res) => {
   const { param } = req.params;
   validDays.includes(param)
-    ? deleteEventsByDay(req, res, param)
-    : deleteEvent(req, res, param);
+    ? deleteEventByDay(req, res, param)
+    : deleteEventById(req, res, param);
 };
 
 exports.checkBody = (req, res, next) => {
@@ -43,7 +45,7 @@ exports.getAllEvents = (req, res) => {
   });
 };
 
-const getEvent = (req, res, id) => {
+const getEventById = (req, res, id) => {
   const event = events.find((el) => el._id === id);
   if (!event)
     return res
@@ -52,7 +54,7 @@ const getEvent = (req, res, id) => {
   res.status(200).json({ status: 'success', data: { event } });
 };
 
-const getEventsByDay = (req, res, dayOfTheWeek) => {
+const getEventByDay = (req, res, dayOfTheWeek) => {
   if (!validDays.includes(dayOfTheWeek))
     return res
       .status(404)
@@ -88,10 +90,26 @@ exports.createEvent = async (req, res) => {
   }
 };
 
-const deleteEvent = (req, res, id) => {
-  // FIX ME
+const deleteEventById = (req, res, id) => {
+  const eventIndex = events.findIndex((el) => el._id === id);
+  if (eventIndex === -1)
+    return res
+      .status(404)
+      .json({ status: 'fail', message: `Event not found with id: ${id}` });
+  events.splice(eventIndex, 1);
+  fs.writeFile(
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
+    (err) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ status: 'fail', message: 'Error writing events data' });
+      res.status(204).json({ status: 'success', data: null });
+    }
+  );
 };
 
-const deleteEventsByDay = (req, res, dayOfTheWeek) => {
+const deleteEventByDay = (req, res, dayOfTheWeek) => {
   // FIX ME
 };
