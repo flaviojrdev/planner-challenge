@@ -23,11 +23,32 @@ exports.deleteByParam = (req, res) => {
 };
 
 exports.checkBody = (req, res, next) => {
-  const { description, dateTime, createdAt } = req.body;
-  if (!description || !dateTime || !createdAt)
+  const { description, dateTime } = req.body;
+  const allowedKeys = ['description', 'dateTime'];
+  const keys = Object.keys(req.body);
+  if (!description || !dateTime)
     return res
       .status(400)
       .json({ status: 'fail', message: 'All fields are required.' });
+  if (typeof description !== 'string' || typeof dateTime !== 'string')
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Both description and dateTime should be of type string',
+    });
+  if (!keys.every((key) => allowedKeys.includes(key)))
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Only description and dateTime are allowed.',
+    });
+
+  const isoDateTimeRegEx =
+    /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
+  if (!dateTime.match(isoDateTimeRegEx))
+    return res.status(400).json({
+      status: 'fail',
+      message: 'DateTime must be in ISO 8601 format.',
+    });
+
   next();
 };
 
@@ -75,7 +96,11 @@ const getEventByDay = (req, res, dayOfTheWeek) => {
 };
 
 exports.createEvent = async (req, res) => {
-  const newEvent = { _id: uuid(), ...req.body };
+  const newEvent = {
+    _id: uuid(),
+    createdAt: new Date().toISOString(),
+    ...req.body,
+  };
   events.push(newEvent);
   try {
     await fs.promises.writeFile(
