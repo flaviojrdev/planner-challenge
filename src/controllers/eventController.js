@@ -139,17 +139,31 @@ const deleteEventById = (req, res, id) => {
 };
 
 const deleteEventByDay = (req, res, dayOfTheWeek) => {
-  const eventsOnDay = events.filter(
-    (event) => validDays[new Date(event.dateTime).getDay()] === dayOfTheWeek
-  );
+  const dayIndex = validDays.indexOf(dayOfTheWeek.toLowerCase());
+  if (dayIndex === -1) {
+    return res
+      .status(400)
+      .json({ status: 'fail', message: 'Invalid day of the week' });
+  }
+  const eventsOnDay = events.filter((event) => {
+    const eventDate = new Date(event.dateTime);
+    const eventDay = eventDate
+      .toLocaleDateString('en-US', { weekday: 'long' })
+      .toLowerCase();
+    return eventDay === dayOfTheWeek.toLowerCase();
+  });
   if (eventsOnDay.length === 0) {
     return res
       .status(404)
       .json({ status: 'fail', message: `No events found on ${dayOfTheWeek}` });
   }
-  events = events.filter(
-    (event) => validDays[new Date(event.dateTime).getDay()] !== dayOfTheWeek
-  );
+  events = events.filter((event) => {
+    const eventDate = new Date(event.dateTime);
+    const eventDay = eventDate
+      .toLocaleDateString('en-US', { weekday: 'long' })
+      .toLowerCase();
+    return eventDay !== dayOfTheWeek.toLowerCase();
+  });
   fs.writeFile(
     `${__dirname}/../data/events.json`,
     JSON.stringify(events),
@@ -162,5 +176,5 @@ const deleteEventByDay = (req, res, dayOfTheWeek) => {
       }
       res.status(200).json({ status: 'success', message: 'Event deleted' });
     }
-  );
+  );  
 };
