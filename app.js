@@ -11,6 +11,7 @@ app.use('/api/v1/events', eventRouter);
 app.use('/api/v1/users', userRouter);
 
 // 3) START SERVER
-app.listen(port = 3000, () => {
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
