@@ -4,10 +4,11 @@ Este é um projeto proposto como desafio pelo programa de bolsa da [Compass.UOL]
 
 ## 🔖 Sumário
 
-- [Como rodar o projeto localmente](#como-rodar-o-projeto-localmente)
-- [Como testar o projeto remotamente](#como-testar-o-projeto-remotamente)
-- [Tecnologias utilizadas](#tecnologias-utilizadas)
-- [Endpoints](#endpoints)
+- [Como rodar o projeto localmente](#-como-rodar-o-projeto-localmente)
+- [Como testar o projeto remotamente](#-como-testar-o-projeto-remotamente)
+- [Tecnologias utilizadas](#-tecnologias-utilizadas)
+- [Endpoints](#-endpoints)
+- [Dados](#-dados)
 
 ## 💻 Como rodar o projeto localmente
 
@@ -31,7 +32,7 @@ Você pode realizar as operações através do link de deploy com as endpoints:
 - [Express](https://expressjs.com/pt-br/)
 - [Vercel](https://vercel.com/) (deploy)
 
-## 🛣️ Endpoints
+## 🛣 Endpoints
 
 ### Eventos
 |Rotas|Métodos|Descrição|
