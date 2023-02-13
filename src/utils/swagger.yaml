@@ -1,0 +1,106 @@
+swagger: '2.0'
+info:
+  title: Event Management API
+  description: A simple API for managing events and users
+  version: 1.0.0
+host: localhost:3000
+basePath: /api/v1/
+schemes:
+  - http
+paths:
+  /events:
+    get:
+      summary: Retrieve all events
+      responses:
+        200:
+          description: All events retrieved successfully
+    post:
+      summary: Create a new event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Concert in the Park
+                description:
+                  type: string
+                  example: A night of music and entertainment in the park
+                date:
+                  type: string
+                  format: date-time
+                  example: 2022-06-05T19:30:00
+      responses:
+        201:
+          description: Event created successfully
+  /events/{param}:
+    get:
+      summary: Retrieve event by parameter
+      parameters:
+        - name: param
+          in: path
+          required: true
+          description: Parameter for retrieving event (e.g. ID, title)
+          type: string
+      responses:
+        200:
+          description: Event retrieved successfully
+    delete:
+      summary: Delete event by parameter
+      parameters:
+        - name: param
+          in: path
+          required: true
+          description: Parameter for deleting event (e.g. ID, title)
+          type: string
+      responses:
+        204:
+          description: Event deleted successfully
+  /users/signUp:
+    post:
+      summary: Sign up a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  format: email
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password123
+      responses:
+        201:
+          description: User signed up successfully
+  /users/signIn:
+    post:
+      summary: Sign in an existing user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: john.doe@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password123
+      responses:
+        200:
+          description: User signed in successfully
