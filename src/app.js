@@ -1,16 +1,26 @@
 const express = require('express');
-const app = express();
+const swaggerJsDoc = require('swagger-jsdoc');
+const SwaggerUI = require('swagger-ui-express');
+const { swaggerOptions } = require('./utils/swagger');
+
 const eventRouter = require('./routes/eventRoutes');
 const userRouter = require('./routes/userRoutes');
 
-// 1) MIDDLEWARES
+const app = express();
+
+// 1) SWAGGER
+const options = swaggerOptions;
+const swaggerDocs = swaggerJsDoc(options);
+
+// 2) MIDDLEWARES
 app.use(express.json());
 
-// 2) ROUTES
+// 3) ROUTES
 app.use('/api/v1/events', eventRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocs));
 
-// 3) START SERVER
+// 4) START SERVER
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
