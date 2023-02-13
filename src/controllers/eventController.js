@@ -81,8 +81,11 @@ const getEventByDay = (req, res, dayOfTheWeek) => {
       .status(404)
       .json({ status: 'fail', message: `Invalid day: ${dayOfTheWeek}` });
   const eventsByDay = events.filter((event) => {
-    const eventDay = new Date(event.dateTime).getDay();
-    return validDays[eventDay] === dayOfTheWeek;
+    const eventDate = new Date(event.dateTime);
+    const eventDay = eventDate
+      .toLocaleDateString('en-US', { weekday: 'long' })
+      .toLowerCase();
+    return eventDay === dayOfTheWeek.toLowerCase();
   });
   if (!eventsByDay || eventsByDay.length === 0)
     return res
@@ -123,8 +126,8 @@ const deleteEventById = (req, res, id) => {
       .json({ status: 'fail', message: `Event not found with id: ${id}` });
   events.splice(eventIndex, 1);
   fs.writeFile(
-    `${__dirname}/../data/events.json,
-  JSON.stringify(events)`,
+    `${__dirname}/../data/events.json`,
+    JSON.stringify(events),
     (err) => {
       if (err)
         return res
